@@ -112,9 +112,7 @@ the user service directory and a private environment file:
 
 ```bash
 mkdir -p /home/user/.config/systemd/user
-cat > /home/user/.config/.env <<'EOF'
-DISCORD_TOKEN=paste-your-bot-token-here
-EOF
+echo 'DISCORD_TOKEN=paste-your-bot-token-here' > /home/user/.config/.env
 chmod 600 /home/user/.config/.env
 ```
 
