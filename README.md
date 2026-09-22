@@ -53,7 +53,7 @@ matching `.png` and `.wav`; an animation needs a matching `.gif` and `.wav`. (ca
 For example:
 
 ```text
-image_po_up/
+image_popup/
 ├── pipe.png
 ├── pipe.wav
 ├── pipe.mp3
