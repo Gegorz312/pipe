@@ -43,7 +43,7 @@ Arch linux:
 ```bash
 sudo pacman -S portaudio
 ```
-Edit the `path` value near the top of
+Edit the `MEDIA_PATH` value near the top of
 `pipe.py` to the absolute path containing the media files (all media png gif and audio need to be in one folder!!!).
 
 ## Asset format

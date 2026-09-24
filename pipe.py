@@ -12,19 +12,22 @@ from PyQt5.QtWidgets import QApplication, QLabel, QWidget
 # --- Configuration ---
 DISCORD_TOKEN = os.getenv("DISCORD_TOKEN", "")
 
-# Allowed author IDs (strings) format
-example_id = "123123123123123"
+# author IDs
+example1_id = "123123123123123"
+example2_id = "123123123123124"
 
 audio_file_extention = ".ogg" # example .mp3 .wav .ogg .flac
 
 # Users that can interact with bot
-allowed = [example_id]
+allowed = [example1_id, example2_id]
 # Admins for check
-admin = {example_id}
+admin = {example1_id}
 
-count_limit = 100
+COUNT_LIMIT = 100
 
-path = "/home/example/path/image_popup/"
+MEDIA_PATH = "/home/example/path/image_popup/"
+
+DEFAULT_VOLUME = 0.5
 
 AUDIO_CACHE = {}
 
@@ -122,6 +125,7 @@ def play_sound_overlapping(sound_file):
     if sound_file not in AUDIO_CACHE:
         AUDIO_CACHE[sound_file] = sf.read(sound_file, dtype="float32")
     data, sr = AUDIO_CACHE[sound_file]
+    data *= DEFAULT_VOLUME
 
     # sd.OutputStream for independed Thread
     def stream():
@@ -181,7 +185,7 @@ def main():
             f" {content_id}"
         )
 
-        if content == "check" and admin:
+        if content == "check" and (author_id in admin):
             await channel.send("The adam check")
 
         if not allowed:
@@ -196,16 +200,16 @@ def main():
             if len(content.split()) > 1:
                 count = int(content.split(" ")[1])
                 content = content.split(" ")[0]
-                if count >= count_limit:
-                    count = count_limit
+                if count >= COUNT_LIMIT:
+                    count = COUNT_LIMIT
             else:
                 count = 1
 
-            content_path = path + content
+            content_path = MEDIA_PATH + content
 
-            if (content + ".gif") in os.listdir(path):
+            if (content + ".gif") in os.listdir(MEDIA_PATH):
                 content_gif = True
-            elif (content + ".png") in os.listdir(path):
+            elif (content + ".png") in os.listdir(MEDIA_PATH):
                 content_png = True
             else:
                 print("No such file: KYS")
@@ -215,9 +219,9 @@ def main():
                 content_path_audio = content_path
 
                 if str(content_id)[-2:] == "99":
-                    content_path_audio = path + "peak"
+                    content_path_audio = MEDIA_PATH + "peak"
                 if str(content_id)[-4:][:2] == "11":
-                    content_path_image = path + "peak"
+                    content_path_image = MEDIA_PATH + "peak"
 
                 trigger_popup(
                     content_path_image + ".png",
